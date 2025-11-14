@@ -1,0 +1,10 @@
+{
+  "scan_time": "2025-11-14T01:43:16Z",
+  "root_dir": ".",
+  "file_count":        0,
+  "test_count":        0,
+  "has_package_json": false,
+  "has_controllers": false,
+  "has_services": false,
+  "has_repositories": false
+}
