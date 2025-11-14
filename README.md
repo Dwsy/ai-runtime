@@ -695,9 +695,9 @@ CodeConscious:
 **[架构指南](.ai-runtime/architecture-guide.md)** - 渐进式披露架构详解和最佳实践
 
 ### 核心系统组件
-- **[身份与命令系统](.ai-runtime/commands/SKILL.md)** - CodeConscious核心能力和命令详解
-- **[记忆系统](.ai-runtime/memory/SKILL.md)** - 分层记忆系统的查询和管理
-- **[工具装备系统](.ai-runtime/toolkit/SKILL.md)** - 工具整合和装备管理
+- **[身份与命令系统](commands/SKILL.md)** - CodeConscious核心能力和命令详解
+- **[记忆系统](memory/SKILL.md)** - 分层记忆系统的查询和管理
+- **[工具装备系统](toolkit/SKILL.md)** - 工具整合和装备管理
 
 ---
 

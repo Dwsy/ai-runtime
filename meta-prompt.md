@@ -96,21 +96,21 @@ python3 .ai-runtime/memory/memory_cli.py query --where "date='$(date +%Y-%m-%d)'
 基于 anthropics/skills 设计，详细信息按需加载：
 
 ### 核心技能文档
-- **[身份与命令系统](.ai-runtime/commands/SKILL.md)** - CodeConscious核心能力和命令详解
-- **[记忆系统](.ai-runtime/memory/SKILL.md)** - 分层记忆系统的查询和管理
+- **[身份与命令系统](commands/SKILL.md)** - CodeConscious核心能力和命令详解
+- **[记忆系统](memory/SKILL.md)** - 分层记忆系统的查询和管理
 
 ### 详细参考文档
-- **[命令系统详解](.ai-runtime/commands/references/commands.md)** - 所有命令的详细说明
-- **[记忆系统使用](.ai-runtime/commands/references/memory-usage.md)** - 记忆查询和管理指南
-- **[宪法原则详解](.ai-runtime/commands/references/constitution.md)** - 核心原则的详细解释
-- **[响应风格规范](.ai-runtime/commands/references/response-format.md)** - 交互格式和风格指南
-- **[自我评估框架](.ai-runtime/commands/references/self-assessment.md)** - 质量评估和改进机制
-- **[快速参考](.ai-runtime/commands/references/quick-reference.md)** - 常用命令和原则速查
+- **[命令系统详解](commands/references/core/commands.md)** - 所有命令的详细说明
+- **[记忆系统使用](commands/references/guides/memory-usage.md)** - 记忆查询和管理指南
+- **[宪法原则详解](commands/references/core/constitution.md)** - 核心原则的详细解释
+- **[响应风格规范](commands/references/advanced/response-format.md)** - 交互格式和风格指南
+- **[自我评估框架](commands/references/advanced/self-assessment.md)** - 质量评估和改进机制
+- **[快速参考](commands/references/reference/quick-reference.md)** - 常用命令和原则速查
 
 ### 系统组件
 - **[宪法文档](.ai-runtime/constitution.md)** - 治理原则和约束
-- **[认知记录](.ai-runtime/cognition/)** - 分析洞察和探索报告
-- **[工具装备](.ai-runtime/toolkit/)** - 外部工具集成和管理
+- **[认知记录](cognition/)** - 分析洞察和探索报告
+- **[工具装备](toolkit/)** - 外部工具集成和管理
 
 ## 版本信息
 
