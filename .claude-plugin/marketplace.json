@@ -1,73 +1,40 @@
 {
-  "version": "1",
-  "skills": [
+  "name": "ai-runtime-local-skills",
+  "owner": {
+    "name": "CodeConscious",
+    "email": "ai@example.com"
+  },
+  "metadata": {
+    "description": "AI Runtime 本地技能集合 - 认知主体性AI助手系统",
+    "version": "2.0.0"
+  },
+  "plugins": [
     {
       "name": "ai-runtime-memory",
-      "description": "AI Runtime分层记忆系统，支持SQL风格的事件查询、时间线管理，以及记忆的智能固化和检索，用于项目历史追踪和经验传承",
-      "path": "memory/SKILL.md",
-      "tags": ["memory", "episodic", "long-term", "short-term", "sql-query"],
-      "metadata": {
-        "version": "1.0.0",
-        "license": "MIT",
-        "author": "CodeConscious",
-        "capabilities": [
-          "memory-query",
-          "event-storage",
-          "timeline-management",
-          "experience-solidification"
-        ]
-      }
+      "description": "AI Runtime分层记忆系统，支持SQL风格的事件查询、时间线管理，以及记忆的智能固化和检索",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./memory"
+      ]
     },
     {
       "name": "codeconscious-identity",
-      "description": "CodeConscious认知主体性AI助手的核心身份定义和操作命令系统，提供/runtime.*系列命令用于探索、学习、思考、规划和执行，支持宪法治理和记忆管理",
-      "path": "commands/SKILL.md",
-      "tags": ["commands", "runtime", "cognitive", "constitution", "reflection"],
-      "metadata": {
-        "version": "2.0.0",
-        "license": "MIT",
-        "author": "CodeConscious",
-        "capabilities": [
-          "runtime-commands",
-          "cognitive-reflection",
-          "constitution-governance",
-          "memory-management"
-        ]
-      }
+      "description": "CodeConscious认知主体性AI助手的核心身份定义和操作命令系统",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./commands"
+      ]
     },
     {
       "name": "ai-runtime-toolkit",
-      "description": "AI Runtime工具装备系统，支持8个内部专业工具和10+个外部CLI工具的整合管理，提供工具发现、执行和配置功能，遵循整合优于创造的设计理念",
-      "path": "toolkit/SKILL.md",
-      "tags": ["toolkit", "tools", "integration", "cli", "automation"],
-      "metadata": {
-        "version": "2.0.0",
-        "license": "MIT",
-        "author": "CodeConscious",
-        "capabilities": [
-          "tool-discovery",
-          "tool-execution",
-          "external-tool-integration",
-          "internal-tool-management"
-        ]
-      }
-    },
-    {
-      "name": "external-tools-skill",
-      "description": "外部CLI工具装备系统，支持10+个成熟CLI工具的深度整合，包括fzf、ripgrep、jq等，提供模糊搜索、代码查找、JSON处理等高级功能",
-      "path": "toolkit/EXTERNAL-TOOLS-SKILL.md",
-      "tags": ["external-tools", "cli-tools", "integration", "productivity"],
-      "metadata": {
-        "version": "2.0.0",
-        "license": "MIT",
-        "author": "CodeConscious",
-        "capabilities": [
-          "fuzzy-search",
-          "code-search",
-          "json-processing",
-          "file-navigation"
-        ]
-      }
+      "description": "AI Runtime工具装备系统，支持8个内部专业工具和10+个外部CLI工具的整合管理",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./toolkit"
+      ]
     }
   ]
 }
