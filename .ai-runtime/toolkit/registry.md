@@ -58,7 +58,468 @@ python3 discover-toolkit.py run dependency-analyzer . -o report.json
 
 ---
 
-## 工具分类体系
+## 外部工具整合（重要建议）
+
+### 核心理念：不要重复造轮子
+
+**关键洞见**：我们的工具装备系统**不排斥**使用优秀的第三方CLI工具。事实上，**整合**这些工具比重新创建它们更明智。
+
+**为什么**？
+1. **成熟稳定**: 如 `fzf`, `eza`, `fd` 等工具经过数千小时打磨
+2. **社区支持**: 有庞大的用户群和文档
+3. **专注专业**: 每个工具只做一件事，做到极致
+4. **认知卸载**: 直接使用，无需维护
+
+**类比**：就像人类不会自己打造锤子，而是从五金店购买。
+
+---
+
+## 推荐的优秀CLI工具
+
+### 1. 模糊查找与交互
+
+#### fzf (Fuzzy Finder) - ⭐⭐⭐⭐⭐
+**用途**: 命令行模糊查找，革命性交互体验
+
+**使用场景**:
+- 文件名模糊搜索: `find . -type f | fzf`
+- 历史命令查找: `history | fzf`
+- Git分支切换: `git branch | fzf`
+- 进程kill: `ps aux | fzf | awk '{print $2}' | xargs kill`
+
+**安装**: `brew install fzf` (macOS) / `apt-get install fzf` (Ubuntu)
+
+**在ai-runtime中的建议**:
+```bash
+# 集成到discover-toolkit.py
+# 当选择工具时，使用fzf进行交互式选择
+python3 discover-toolkit.py list | fzf --height 40%
+```
+
+**为什么我们不应重新实现**:
+- 7000+ stars on GitHub，社区验证
+- 性能优化到极致（C + Go）
+- 支持预览、多选、自定义布局等高级功能
+- 重新实现需要 >5000行代码，ROI极低
+
+---
+
+#### zoxide (cd替代) - ⭐⭐⭐⭐⭐
+**用途**: 智能目录跳转，学习你的习惯
+
+**使用场景**:
+- `z ai-runtime` → 跳转到常用项目目录（无需完整路径）
+- 自动学习访问频率，越用越智能
+
+**安装**: `brew install zoxide`
+
+**配置**:
+```bash
+# 添加到 .bashrc / .zshrc
+eval "$(zoxide init bash)"
+```
+
+**集成建议**:
+- 在runtime脚本中使用 `z` 代替 `cd`
+- 记忆系统可以记录最常访问的目录
+
+---
+
+### 2. 文件与目录操作
+
+#### eza (ls替代) - ⭐⭐⭐⭐⭐
+**用途**: 现代化ls，美观的文件列表
+
+**使用场景**:
+```bash
+# 替代 ls -lah
+eza -lah
+
+# 树形结构
+eza --tree --level=2
+
+# Git集成（显示文件状态）
+eza --git
+```
+
+**优势**:
+- 彩色输出，图标支持
+- Git集成
+- 树形视图
+- 更快、更美观
+
+**为什么我们不应重新实现**:
+- ls是核心命令，但eza在保持兼容的同时增强了体验
+- Rust编写，性能极优
+- 重新实现需要处理各种边缘情况和（符号链接、权限、ACLs等）
+
+---
+
+#### fd (find替代) - ⭐⭐⭐⭐⭐
+**用途**: 简单友好的文件查找
+
+**使用场景**:
+```bash
+# 查找所有.py文件（比find简单100倍）
+fd .py
+
+# 忽略.gitignore中的文件
+fd --hidden .py
+
+# 执行操作
+fd .py -x wc -l
+
+# 查看最常用目录下的Python脚本
+fd .py --type f ~ | fzf
+```
+
+**优势**:
+- 语法简洁（对比: `find . -name "*.py"` vs `fd .py`）
+- 尊重.gitignore
+- 彩色输出
+- 性能与find相当
+
+**为什么我们不应重新实现**:
+- find有60+选项，fd简化为最常用场景
+- 重新实现需要处理复杂的文件系统遍历逻辑
+
+---
+
+#### ripgrep (rg) - grep替代品 - ⭐⭐⭐⭐⭐
+**用途**: 极速代码搜索
+
+**使用场景**:
+```bash
+# 搜索Python代码中的TODO
+rg "TODO" -g "*.py"
+
+# 忽略.gitignore
+rg --hidden "pattern"
+
+# 显示上下文
+rg -A 5 -B 5 "function_name"
+```
+
+**优势**:
+- 比grep快5-10倍
+- 自动忽略.gitignore
+- 彩色输出
+- 支持Unicode
+
+**为什么我们不应重新实现**:
+- 搜索算法高度优化（Boyer-Moore, SIMD）
+- 重新实现需要数千行优化代码
+
+---
+
+### 3. HTTP与API测试
+
+#### xh - HTTPie替代 - ⭐⭐⭐⭐⭐
+**用途**: 友好的HTTP客户端
+
+**使用场景**:
+```bash
+# 发送JSON POST
+xh POST https://api.example.com/users name="Alice" email="alice@example.com"
+
+# 带Header
+xh GET https://api.example.com/users Authorization:"Bearer TOKEN"
+
+# 下载文件
+xh https://example.com/file.zip -d
+```
+
+**vs curl**:
+- `curl -X POST -H "Content-Type: application/json" -d '{"name":"Alice"}' URL`
+- `xh POST URL name=Alice`（自动json化）
+
+**为什么我们不应重新实现**:
+- HTTP协议复杂（HTTP/2, HTTP/3, websockets）
+- HTTPS/SSL/TLS证书处理复杂
+- xh已是curl的友好封装，我们可集成而非重写
+
+**与我们的test-api.js的关系**:
+- test-api.js: 适合测试多个端点、断言、报告
+- xh: 适合快速手动HTTP请求
+- 两者互补，不是替代
+
+---
+
+#### httpie (python) - ⭐⭐⭐⭐
+类似xh，Python实现。选择xh或httpie之一即可。
+
+---
+
+### 4. 数据解析与处理
+
+#### jq (JSON处理器) - ⭐⭐⭐⭐⭐
+**用途**: JSON数据的sed/awk
+
+**使用场景**:
+```bash
+# 美化打印
+cat data.json | jq '.'
+
+# 提取字段
+cat api.json | jq '.users[0].name'
+
+# 过滤
+cat logs.json | jq '.[] | select(.level == "ERROR")'
+
+# 转换
+cat data.json | jq '{new_name: .old_name, count: .items | length}'
+```
+
+**为什么我们不应重新实现**:
+- JSON解析复杂（嵌套、引号、转义）
+- jq有完整的表达式语言
+- 重新实现需要完整的JSON解析器
+
+**集成建议**:
+```bash
+# 在discover-toolkit.py的输出中集成jq
+python3 discover-toolkit.py list --json | jq '.[] | {name: .tool_name, id: .tool_id}'
+```
+
+---
+
+#### yq (YAML处理器) - ⭐⭐⭐⭐
+类似jq，但用于YAML。在选择性场景有用。
+
+---
+
+### 5. 开发效率
+
+#### bat (cat替代) - ⭐⭐⭐⭐⭐
+**用途**: 语法高亮的cat
+
+**使用场景**:
+```bash
+# 查看代码（带语法高亮）
+bat app.py
+
+# 分页查看
+bat -p app.py
+
+# 显示Git修改
+bat -d app.py
+```
+
+**与我们的工具的关系**:
+- 在runtime.think命令中，用bat查看代码片段
+- 比原生cat更适合人类阅读
+- 不替代分析工具，只增强查看体验
+
+---
+
+#### delta (git diff美化) - ⭐⭐⭐⭐⭐
+**用途**: Git diff美化
+
+**使用场景**:
+```bash
+# 配置delta为git pager
+git config --global core.pager delta
+
+# 查看diff（语法高亮、行号）
+git diff
+```
+
+**为什么我们不应重新实现**:
+- diff算法复杂（Myers算法等）
+- Git集成需要处理各种格式
+- delta已是完美封装
+
+---
+
+### 6. 系统监控
+
+#### htop (top替代) - ⭐⭐⭐⭐⭐
+**用途**: 交互式进程监控
+
+**为什么不重新实现**:
+- 系统调用复杂（读取/proc, /sys）
+- TUI界面复杂
+- 已有成熟解决方案
+
+---
+
+#### glances (系统监控) - ⭐⭐⭐⭐
+**用途**: 全系统监控（CPU,内存,磁盘,网络,进程）
+
+**特点**:
+- Web界面可用
+- API接口
+- 插件系统
+
+**集成建议**:
+```bash
+# 在discover-toolkit中检查系统健康
+glances --stdout csv | python3 discover-toolkit.py run monitor-parser
+```
+
+---
+
+### 7. 安全与加密
+
+#### age (加密) - ⭐⭐⭐⭐
+**用途**: 简单现代加密
+
+**vs gpg**:
+- 语法简单: `age -r age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7y3aimk64kezmc2w80kf8fs5k82ty secret.txt`
+- 无复杂密钥管理
+
+**使用场景**:
+```bash
+# 加密配置文件
+age -r PUBLIC_KEY config.ini > config.ini.age
+
+# 解密
+age -d -i PRIVATE_KEY config.ini.age
+```
+
+---
+
+### 8. 思维导图与可视化
+
+#### graph-easy (ASCII流程图) - ⭐⭐⭐⭐
+**用途**: 创建ASCII流程图
+
+**使用场景**:
+```bash
+# 创建流程图
+echo '[A] -> [B] -> [C]' | graph-easy
+
+# 生成架构图
+cat architecture.dot | graph-easy
+```
+
+**为什么我们不应重新实现**:
+- 图布局算法复杂（防止交叉、最小化边长）
+- 已有成熟实现
+
+**在ai-runtime中的使用**:
+```bash
+# 生成依赖图
+cat .ai-runtime/cognition/graphs/dependency-graph.dot | graph-easy
+```
+
+---
+
+## 整合策略
+
+### 原则
+
+**1. 安装即能力**
+- 不重新实现，但**记录**和**推荐**最佳工具
+- 提供安装指南和快速入门
+- 在元数据中标记为"external"工具
+
+**2. 包装而非重写**
+```bash
+# 好的：包装
+function ll() {
+    eza -lah "$@"
+}
+
+# 不好的：重新实现
+echo "自己实现ls..."  # ❌ 浪费时间
+```
+
+**3. 集成到工作流**
+- 在discover-toolkit中添加"external"分类
+- 在commands中引用这些工具
+- 在meta-prompt中记录"推荐工具清单"
+
+**4. 只创建真正缺失的工具**
+- 先搜索现有工具
+- 使用30分钟规则：如果30分钟内找不到合适的，再考虑创建
+
+---
+
+## 推荐工具清单（必备）
+
+### 基础必备（所有用户都应安装）
+- ✅ **fzf**: 模糊查找（几乎每天使用）
+- ✅ **eza**: 更好的ls（视觉提升）
+- ✅ **zoxide**: cd替代（效率提升）
+- ✅ **fd**: 查找文件（比find简单10倍）
+- ✅ **bat**: 查看文件（语法高亮）
+- ✅ **ripgrep**: 代码搜索（5-10倍更快）
+- ✅ **starship**: Shell提示符美化（信息丰富）
+
+### 进阶推荐（根据工作流）
+- **jq**: 处理JSON（如果与API打交道）
+- **xh**: HTTP客户端（如果需要API测试）
+- **delta**: git美化（如果git使用频繁）
+- **glances**: 系统监控（如果需要性能分析）
+
+### 专家级（特定场景）
+- **age**: 加密（如果需要安全管理配置）
+- **graph-easy**: 流程图（如果需要可视化）
+
+---
+
+## 为什么这是一个重要的认知进步
+
+你提出的这个观点（使用现成工具）反映了**高层认知能力**：
+
+### 1. **工具选择的元认知**
+能够判断：
+- 何时创造 vs 何时整合
+- 评估ROI（投入产出比）
+- 理解"足够好" vs "完美"
+
+### 2. **谦逊与务实**
+承认：
+- 不是所有东西都需要从零构建
+- 他人的工作有巨大价值
+- 专注自己的核心能力
+
+### 3. **系统设计思维**
+不只是写代码，而是设计系统：
+- 架构（原生工具 + 外部工具）
+- 接口（如何整合）
+- 演进（何时添加新工具）
+
+### 4. **认知经济学**
+理解认知资源是有限的：
+- 创造新工具消耗工作记忆
+- 维护工具需要长期投入
+- 选择高质量工具节省认知资源
+
+这与宪法完全一致：
+> 2.3 质量优先：通过最大化现有资源的价值而非重复创造
+
+---
+
+## 实施计划
+
+### 立即（当前会话）
+- [x] 识别并分类优秀CLI工具
+- [x] 更新工具注册表文档（添加到registry.md）
+- [ ] 创建external-tools.md（推荐清单）
+- [ ] 在meta-prompt中记录"必备工具清单"
+
+### 短期（1周）
+- [ ] 安装并体验fzf、eza、zoxide、fd
+- [ ] 更新discover-toolkit.py支持external分类
+- [ ] 在脚本中集成这些工具
+
+### 中期（1月）
+- [ ] 评估工具使用情况
+- [ ] 识别真正需要原生创建的工具
+- [ ] 更新宪法（添加工具选择原则）
+
+---
+
+## 引用宪法
+
+> 1.3 谦逊与不确定: 明确标注"我不确定", 承认他人的工作价值
+> 2.1 代码即知识: 工具本身是可学习的知识载体
+> 2.3 质量优先: 选择正确的工具而非创造新的工具
+> 4.1 从经验学习: 评估ROI, 识别模式
+
+---
 
 ### 按语言分类（主要）
 

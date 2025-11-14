@@ -16,7 +16,9 @@ class ToolkitDiscovery:
         self.root = toolkit_root
         self.registry = {}
         self.tools = []
+        self.external_tools = []
         self.load_registry()
+        self.detect_external_tools()
 
     def load_registry(self):
         """加载工具注册表"""
@@ -80,8 +82,108 @@ class ToolkitDiscovery:
         except Exception as e:
             return None
 
-    def list_tools(self, lang: Optional[str] = None, purpose: Optional[str] = None, query: Optional[str] = None):
+    def detect_external_tools(self):
+        """检测系统已安装的外部CLI工具"""
+        external_tool_configs = [
+            {
+                "tool_id": "EXT-FZF-001",
+                "tool_name": "fzf (Fuzzy Finder)",
+                "command": "fzf",
+                "description": "命令行模糊查找器，用于交互式选择",
+                "category": "搜索/交互",
+                "use_cases": ["文件名查找", "历史命令搜索", "Git分支切换"],
+                "install_guide": "brew install fzf (macOS) / apt-get install fzf (Ubuntu)"
+            },
+            {
+                "tool_id": "EXT-EZA-001",
+                "tool_name": "eza (Modern ls)",
+                "command": "eza",
+                "description": "现代化的ls替代品，带彩色输出和图标",
+                "category": "文件列表",
+                "use_cases": ["查看文件列表", "树形结构显示", "Git状态查看"],
+                "install_guide": "brew install eza"
+            },
+            {
+                "tool_id": "EXT-ZOXIDE-001",
+                "tool_name": "zoxide (Smart cd)",
+                "command": "zoxide",
+                "description": "智能目录跳转工具，学习访问习惯",
+                "category": "目录导航",
+                "use_cases": ["快速跳转目录", "访问频率学习"],
+                "install_guide": "curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh"
+            },
+            {
+                "tool_id": "EXT-FD-001",
+                "tool_name": "fd (Simple find)",
+                "command": "fd",
+                "description": "简单友好的find替代品",
+                "category": "文件搜索",
+                "use_cases": ["查找文件", "忽略.gitignore搜索", "执行操作"],
+                "install_guide": "brew install fd"
+            },
+            {
+                "tool_id": "EXT-RG-001",
+                "tool_name": "ripgrep (rg)",
+                "command": "rg",
+                "description": "极速代码搜索工具",
+                "category": "代码搜索",
+                "use_cases": ["搜索代码", "显示上下文", "统计匹配数"],
+                "install_guide": "brew install ripgrep"
+            },
+            {
+                "tool_id": "EXT-BAT-001",
+                "tool_name": "bat (cat with syntax)",
+                "command": "bat",
+                "description": "带语法高亮的cat替代品",
+                "category": "文件查看",
+                "use_cases": ["查看代码文件", "分页查看", "Git修改查看"],
+                "install_guide": "brew install bat"
+            },
+            {
+                "tool_id": "EXT-JQ-001",
+                "tool_name": "jq (JSON processor)",
+                "command": "jq",
+                "description": "JSON数据的命令行处理器",
+                "category": "数据处理",
+                "use_cases": ["JSON美化", "字段提取", "数据过滤", "格式转换"],
+                "install_guide": "brew install jq"
+            },
+            {
+                "tool_id": "EXT-XH-001",
+                "tool_name": "xh (HTTP client)",
+                "command": "xh",
+                "description": "友好的HTTP客户端，替代curl",
+                "category": "API测试",
+                "use_cases": ["发送HTTP请求", "API测试", "文件下载"],
+                "install_guide": "brew install xh"
+            },
+            {
+                "tool_id": "EXT-DELTA-001",
+                "tool_name": "delta (Git diff美化)",
+                "command": "delta",
+                "description": "Git diff的美化工具",
+                "category": "Git工具",
+                "use_cases": ["查看Git diff", "语法高亮", "行号显示"],
+                "install_guide": "brew install git-delta"
+            }
+        ]
+
+        import shutil
+        for config in external_tool_configs:
+            if shutil.which(config["command"].split()[0]):
+                config["installed"] = True
+                config["path"] = shutil.which(config["command"].split()[0])
+            else:
+                config["installed"] = False
+                config["path"] = None
+
+            self.external_tools.append(config)
+
+    def list_tools(self, lang: Optional[str] = None, purpose: Optional[str] = None, query: Optional[str] = None, include_external: bool = False, external_only: bool = False):
         """列出工具，支持过滤"""
+        if external_only:
+            return self.external_tools
+
         filtered = self.tools
 
         if lang:
@@ -92,6 +194,9 @@ class ToolkitDiscovery:
 
         if query:
             filtered = [t for t in filtered if query.lower() in t["tool_name"].lower() or query.lower() in t["description"].lower()]
+
+        if include_external:
+            filtered = filtered + self.external_tools
 
         return filtered
 
@@ -240,6 +345,8 @@ def main():
     list_parser.add_argument("--purpose", help="按用途过滤 (DATA/CODE/TEST/BUILD/MONITOR/DOC)")
     list_parser.add_argument("--query", help="按名称或描述搜索")
     list_parser.add_argument("--json", action="store_true", help="JSON格式输出")
+    list_parser.add_argument("--external", action="store_true", help="仅显示外部工具")
+    list_parser.add_argument("--include-external", action="store_true", help="包含外部工具")
 
     # show 命令
     show_parser = subparsers.add_parser("show", help="显示工具详情")
@@ -261,7 +368,11 @@ def main():
     args = parser.parse_args()
 
     if args.command == "list":
-        tools = discovery.list_tools(args.lang, args.purpose, args.query)
+        # 处理外部工具选项
+        include_external = args.include_external or False
+        external_only = args.external or False
+
+        tools = discovery.list_tools(args.lang, args.purpose, args.query, include_external, external_only)
 
         if args.json:
             print(json.dumps(tools, indent=2, ensure_ascii=False))
@@ -270,17 +381,44 @@ def main():
                 print("⚠️  未找到匹配的工具")
                 return
 
-            print(f"\n📦 找到 {len(tools)} 个工具:")
-            print(f"{'='*110}")
-            print(f"{'名称':<25} {'ID':<25} {'语言':<8} {'用途':<15} {'描述':<30}")
-            print(f"{'-'*110}")
+            # 分离内部工具和外部工具
+            internal_tools = [t for t in tools if 'language' in t]
+            external_tools = [t for t in tools if 'category' in t]
 
-            for tool in tools:
-                purposes = ','.join(tool['purpose'])[:13]
-                desc = tool['description'][:28]
-                print(f"{tool['tool_name']:<25} {tool['tool_id']:<25} {tool['language']:<8} {purposes:<15} {desc:<30}")
+            # 显示内部工具
+            if internal_tools and not external_only:
+                print(f"\n📦 找到 {len(internal_tools)} 个内部工具:")
+                print(f"{'='*110}")
+                print(f"{'名称':<25} {'ID':<25} {'语言':<8} {'用途':<15} {'描述':<30}")
+                print(f"{'-'*110}")
 
-            print(f"{'='*110}\n")
+                for tool in internal_tools:
+                    purposes = ','.join(tool['purpose'])[:13]
+                    desc = tool['description'][:28]
+                    print(f"{tool['tool_name']:<25} {tool['tool_id']:<25} {tool['language']:<8} {purposes:<15} {desc:<30}")
+
+                print(f"{'='*110}")
+
+            # 显示外部工具
+            if external_tools and (include_external or external_only):
+                if internal_tools:
+                    print()
+                print(f"\n🌟 找到 {len(external_tools)} 个外部工具:")
+                print(f"{'='*100}")
+                print(f"{'名称':<25} {'ID':<20} {'分类':<12} {'安装状态':<10} {'描述':<30}")
+                print(f"{'-'*100}")
+
+                for tool in external_tools:
+                    status = "✅ 已安装" if tool.get('installed') else "❌ 未安装"
+                    desc = tool['description'][:30]
+                    print(f"{tool['tool_name']:<25} {tool['tool_id']:<20} {tool['category']:<12} {status:<10} {desc:<30}")
+
+                print(f"{'='*100}")
+                if not external_only:
+                    print("\n💡 提示: 使用 --external 仅显示外部工具")
+                    print("💡 提示: 外部工具是系统级的CLI工具，需单独安装")
+
+            print()
 
     elif args.command == "show":
         discovery.show_tool_detail(args.tool)
@@ -307,6 +445,8 @@ def main():
         print("\n💡 示例:")
         print("  python3 discover-toolkit.py list                    # 列出所有工具")
         print("  python3 discover-toolkit.py list --lang python     # 列出Python工具")
+        print("  python3 discover-toolkit.py list --external        # 仅显示外部工具")
+        print("  python3 discover-toolkit.py list --include-external # 包含外部工具")
         print("  python3 discover-toolkit.py show SERVICE-CHECK-001 # 查看工具详情")
         print("  python3 discover-toolkit.py run dependency-analyzer . # 运行工具")
         print("  python3 discover-toolkit.py recommend '分析日志'    # 推荐工具")
