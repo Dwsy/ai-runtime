@@ -1,0 +1,24 @@
+{
+  "version": "1",
+  "skills": [
+    {
+      "name": "ai-runtime-memory",
+      "description": "AI Runtime 分层记忆系统，支持SQL风格查询和智能管理",
+      "path": ".ai-runtime/memory/SKILL.md",
+      "tags": ["memory", "query", "episodic", "long-term", "short-term"],
+      "metadata": {
+        "version": "1.0.0",
+        "license": "MIT",
+        "author": "CodeConscious",
+        "capabilities": [
+          "episodic-memory-query",
+          "long-term-knowledge-storage",
+          "short-term-context-management",
+          "sql-style-search",
+          "time-based-filtering",
+          "tag-based-organization"
+        ]
+      }
+    }
+  ]
+}

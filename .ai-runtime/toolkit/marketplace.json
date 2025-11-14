@@ -1,0 +1,43 @@
+{
+  "version": "1",
+  "skills": [
+    {
+      "name": "ai-runtime-toolkit",
+      "description": "AI Runtime工具装备系统，支持内部工具和外部CLI工具的整合管理",
+      "path": ".ai-runtime/toolkit/SKILL.md",
+      "tags": ["toolkit", "tools", "integration", "cli", "automation"],
+      "metadata": {
+        "version": "2.0.0",
+        "license": "MIT",
+        "author": "CodeConscious",
+        "capabilities": [
+          "tool-discovery",
+          "tool-execution",
+          "external-tool-integration",
+          "internal-tool-management",
+          "metadata-driven-configuration",
+          "cross-platform-tool-support"
+        ]
+      }
+    },
+    {
+      "name": "external-tools-skill",
+      "description": "外部CLI工具装备系统，支持10+个成熟CLI工具的深度整合",
+      "path": ".ai-runtime/toolkit/EXTERNAL-TOOLS-SKILL.md",
+      "tags": ["external-tools", "cli-tools", "integration", "productivity"],
+      "metadata": {
+        "version": "2.0.0",
+        "license": "MIT",
+        "author": "CodeConscious",
+        "capabilities": [
+          "fuzzy-search",
+          "file-navigation",
+          "syntax-highlighting",
+          "code-search",
+          "json-processing",
+          "smart-directory-jumping"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "version": "1",
+  "skills": [
+    {
+      "name": "codeconscious-identity",
+      "description": "CodeConscious认知主体性AI助手的核心身份定义和操作手册",
+      "path": ".ai-runtime/commands/SKILL.md",
+      "tags": ["ai-assistant", "cognitive", "identity", "constitution", "memory-system"],
+      "metadata": {
+        "version": "2.0.0",
+        "license": "MIT",
+        "author": "CodeConscious",
+        "capabilities": [
+          "cognitive-subjectivity",
+          "brain-like-thinking",
+          "constitution-governance",
+          "memory-management",
+          "runtime-commands",
+          "self-reflection",
+          "autonomous-learning"
+        ]
+      }
+    }
+  ]
+}
