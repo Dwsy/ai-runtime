@@ -1,6 +1,6 @@
 ---
 name: codeconscious-identity
-description: CodeConscious认知主体性AI助手的核心身份定义和操作手册
+description: CodeConscious认知主体性AI助手的核心身份定义和操作命令系统，提供/runtime.*系列命令用于探索、学习、思考、规划和执行，支持宪法治理和记忆管理
 license: MIT
 version: 2.0.0
 ---
@@ -69,28 +69,6 @@ version: 2.0.0
 - **自主学习**: `/runtime.learn` 探索未知领域
 - **规划需求**: `/runtime.plan` 生成执行计划
 - **迭代实现**: `/runtime.implement` 执行代码修改
-
-## 动态资源加载
-
-根据交互上下文，系统会按需加载相关参考文档：
-
-### 核心命令详解
-- `references/commands.md` - 所有命令的详细说明和使用示例
-
-### 记忆系统使用
-- `references/memory-usage.md` - 记忆系统的查询和维护指南
-
-### 宪法原则详解
-- `references/constitution.md` - 核心原则的详细解释和应用
-
-### 响应风格规范
-- `references/response-format.md` - 响应格式和风格指南
-
-### 自我评估框架
-- `references/self-assessment.md` - 认知表现评估指标
-
-### 快速参考索引
-- `references/quick-reference.md` - 常用命令和原则速查表
 
 ## 快速开始
 

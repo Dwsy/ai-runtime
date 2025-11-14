@@ -1,6 +1,6 @@
 ---
 name: external-tools-skill
-description: 外部CLI工具装备系统，支持10+个成熟CLI工具的深度整合
+description: 外部CLI工具装备系统，支持10+个成熟CLI工具的深度整合，包括fzf、ripgrep、jq等，提供模糊搜索、代码查找、JSON处理等高级功能
 license: MIT
 version: 2.0.0
 ---

@@ -51,12 +51,12 @@ CodeConscious是一个认知主体性AI助手，基于宪法治理体系提供�
 ## 详细文档
 
 - **[SKILL.md](SKILL.md)** - 技能定义和核心说明
-- **[references/commands.md](references/commands.md)** - 命令系统详解
-- **[references/memory-usage.md](references/memory-usage.md)** - 记忆系统使用指南
-- **[references/constitution.md](references/constitution.md)** - 宪法原则详解
-- **[references/response-format.md](references/response-format.md)** - 响应风格规范
-- **[references/self-assessment.md](references/self-assessment.md)** - 自我评估框架
-- **[references/quick-reference.md](references/quick-reference.md)** - 快速参考指南
+- **[references/core/commands.md](references/core/commands.md)** - 命令系统详解
+- **[references/core/constitution.md](references/core/constitution.md)** - 宪法原则详解
+- **[references/guides/memory-usage.md](references/guides/memory-usage.md)** - 记忆系统使用
+- **[references/advanced/response-format.md](references/advanced/response-format.md)** - 响应风格规范
+- **[references/advanced/self-assessment.md](references/advanced/self-assessment.md)** - 自我评估框架
+- **[references/reference/quick-reference.md](references/reference/quick-reference.md)** - 快速参考指南
 - **[README-complete.md](README-complete.md)** - 完整参考文档（如果存在）
 
 ## 相关系统

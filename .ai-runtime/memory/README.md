@@ -37,12 +37,12 @@ AI Runtime的记忆系统采用分层架构：
 
 ## 详细文档
 
-- **[SKILL.md](SKILL.md)**: 技能定义和核心说明
-- **[references/architecture.md](references/architecture.md)**: 系统架构详解
-- **[references/tools.md](references/tools.md)**: 工具使用指南
-- **[references/maintenance.md](references/maintenance.md)**: 维护指南
-- **[references/examples.md](references/examples.md)**: 使用示例
-- **[README-complete.md](README-complete.md)**: 完整参考文档
+- **[SKILL.md](SKILL.md)** - 技能定义和核心说明
+- **[references/core/architecture.md](references/core/architecture.md)** - 系统架构详解
+- **[references/guides/tools.md](references/guides/tools.md)** - 工具使用指南
+- **[references/advanced/maintenance.md](references/advanced/maintenance.md)** - 维护指南
+- **[references/examples/examples.md](references/examples/examples.md)** - 使用示例
+- **[README-complete.md](README-complete.md)** - 完整参考文档
 
 ## 相关链接
 

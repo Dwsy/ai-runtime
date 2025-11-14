@@ -1,6 +1,6 @@
 ---
 name: ai-runtime-toolkit
-description: AI Runtime工具装备系统，支持内部工具和外部CLI工具的整合管理
+description: AI Runtime工具装备系统，支持8个内部专业工具和10+个外部CLI工具的整合管理，提供工具发现、执行和配置功能，遵循整合优于创造的设计理念
 license: MIT
 version: 2.0.0
 ---
@@ -65,17 +65,19 @@ python3 discover-toolkit.py search monitor
 
 基于 anthropics/skills 设计，按需加载详细信息：
 
-### 核心文档
-- **[工具哲学](references/toolkit-philosophy.md)** - 设计理念和原则详解
-- **[快速开始指南](references/quickstart.md)** - 10分钟上手使用指南
+### 核心理念
+- **[工具哲学](references/core/toolkit-philosophy.md)** - 设计理念、分类体系和发展策略
 
-### 工具参考
-- **[内部工具详解](references/internal-tools.md)** - 8个自主创建工具的详细说明
-- **[外部工具集成](references/external-tools.md)** - 10+个CLI工具的整合指南
+### 使用指南
+- **[快速开始](references/guides/quickstart.md)** - 10分钟上手工具装备系统
+
+### 详细参考
+- **[内部工具详解](../docs/references/internal-tools.md)** - 8个自主创建工具的详细说明
+- **[外部工具集成](../docs/references/external-tools.md)** - 10+个CLI工具的整合指南
 
 ### 开发指南
-- **[创建新工具](references/creating-tools.md)** - 如何开发和添加新工具
-- **[外部工具整合](references/external-integration.md)** - 如何整合第三方CLI工具
+- **[创建新工具](../docs/guides/creating-tools.md)** - 工具开发流程和最佳实践
+- **[外部工具整合](../docs/guides/external-integration.md)** - 整合第三方CLI工具
 
 ## 设计理念
 

@@ -687,6 +687,20 @@ CodeConscious:
 
 ---
 
+## 架构与文档
+
+### 渐进式披露架构
+基于 anthropics/skills 设计，实现文档的智能分层和按需加载：
+
+**[架构指南](.ai-runtime/architecture-guide.md)** - 渐进式披露架构详解和最佳实践
+
+### 核心系统组件
+- **[身份与命令系统](.ai-runtime/commands/SKILL.md)** - CodeConscious核心能力和命令详解
+- **[记忆系统](.ai-runtime/memory/SKILL.md)** - 分层记忆系统的查询和管理
+- **[工具装备系统](.ai-runtime/toolkit/SKILL.md)** - 工具整合和装备管理
+
+---
+
 **最后更新**: 2025-11-14 03:52:11
 **版本**: 1.0.0
 **状态**: runtime初始化完成，开始持续运行

@@ -1,6 +1,6 @@
 ---
 name: ai-runtime-memory
-description: AI Runtime 分层记忆系统，支持SQL风格查询和智能管理
+description: AI Runtime分层记忆系统，支持SQL风格的事件查询、时间线管理，以及记忆的智能固化和检索，用于项目历史追踪和经验传承
 license: MIT
 version: 1.0.0
 ---
@@ -50,21 +50,21 @@ python3 memory_cli.py query --where "tags CONTAINS 'architecture' AND type='deci
 ./scripts/memory-query.sh search "认证"
 ```
 
-## 动态资源加载
+## 渐进式披露文档架构
 
-根据查询需求，系统会自动加载相关参考文档：
+基于 anthropics/skills 设计，按需加载详细信息：
 
-### 架构详解
-- `references/architecture.md` - 记忆系统架构和设计原则详解
+### 核心架构
+- **[系统架构详解](references/core/architecture.md)** - 分层记忆系统设计和实现原理
 
-### 工具使用
-- `references/tools.md` - memory_cli.py 和 memory_discovery.py 详细使用指南
+### 使用指南
+- **[工具使用指南](references/guides/tools.md)** - memory_cli.py 和 memory_discovery.py 详细用法
 
-### 维护指南
-- `references/maintenance.md` - 事件添加、记忆固化、质量保证流程
+### 高级主题
+- **[维护指南](references/advanced/maintenance.md)** - 记忆固化、清理和质量保证
 
-### 使用示例
-- `references/examples.md` - 从基础查询到高级分析的完整示例
+### 实践示例
+- **[使用示例](references/examples/examples.md)** - 从基础查询到高级分析的完整示例
 
 ## 事件记录格式
 
